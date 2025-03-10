@@ -1,0 +1,53 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\AU102240\\source\\repos\\MyDMS\\wwwroot\\uploads\\0ee94df0-7e71-4ac8-96fb-a7b3a6df1bd6_IsdIsHl7SoarianFin_Case_ECD.xml",
+      "PackagePath": "staticwebassets\\uploads\\0ee94df0-7e71-4ac8-96fb-a7b3a6df1bd6_IsdIsHl7SoarianFin_Case_ECD.xml"
+    },
+    {
+      "Id": "C:\\Users\\AU102240\\source\\repos\\MyDMS\\wwwroot\\uploads\\4d046cb1-540f-4b79-aaba-92d4e3f8b3d1_test.hl7",
+      "PackagePath": "staticwebassets\\uploads\\4d046cb1-540f-4b79-aaba-92d4e3f8b3d1_test.hl7"
+    },
+    {
+      "Id": "C:\\Users\\AU102240\\source\\repos\\MyDMS\\wwwroot\\uploads\\4d2471cd-73bc-479e-a993-589b043fc817_the-donkey-sanctuary-came-for-their-regular-inspection-of-v0-b2iexlmfhtub1.webp",
+      "PackagePath": "staticwebassets\\uploads\\4d2471cd-73bc-479e-a993-589b043fc817_the-donkey-sanctuary-came-for-their-regular-inspection-of-v0-b2iexlmfhtub1.webp"
+    },
+    {
+      "Id": "C:\\Users\\AU102240\\source\\repos\\MyDMS\\wwwroot\\uploads\\a800d5bf-980a-4afd-b38e-80d8fe8fa676_IsdIsHl7Ack.xsl",
+      "PackagePath": "staticwebassets\\uploads\\a800d5bf-980a-4afd-b38e-80d8fe8fa676_IsdIsHl7Ack.xsl"
+    },
+    {
+      "Id": "C:\\Users\\AU102240\\source\\repos\\MyDMS\\wwwroot\\uploads\\ec858fe9-82c2-4f42-ab5f-5b263019769b_IsdIsHl7Ack.xsl",
+      "PackagePath": "staticwebassets\\uploads\\ec858fe9-82c2-4f42-ab5f-5b263019769b_IsdIsHl7Ack.xsl"
+    },
+    {
+      "Id": "C:\\Users\\AU102240\\source\\repos\\MyDMS\\wwwroot\\uploads\\f06541e0-a543-49bb-ba6a-c7010576326b_IsdIsHl7SoarianFin_Case_ECD.xml",
+      "PackagePath": "staticwebassets\\uploads\\f06541e0-a543-49bb-ba6a-c7010576326b_IsdIsHl7SoarianFin_Case_ECD.xml"
+    },
+    {
+      "Id": "C:\\Users\\AU102240\\source\\repos\\MyDMS\\wwwroot\\uploads\\fe60f21a-8bd4-454b-9de8-35271107bdda_polling investifation.txt",
+      "PackagePath": "staticwebassets\\uploads\\fe60f21a-8bd4-454b-9de8-35271107bdda_polling investifation.txt"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.MyDMS.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.MyDMS.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.MyDMS.props",
+      "PackagePath": "build\\MyDMS.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.MyDMS.props",
+      "PackagePath": "buildMultiTargeting\\MyDMS.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.MyDMS.props",
+      "PackagePath": "buildTransitive\\MyDMS.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
