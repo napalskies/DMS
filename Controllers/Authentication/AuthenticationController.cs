@@ -77,10 +77,31 @@ namespace MyDMS.Controllers.Authentication
         }
 
         [HttpPost("logout")]
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
+            var user = await _userManager.GetUserAsync(User);
+            _tokenService.DeleteRefreshToken(user.Id);
             _signInManager.SignOutAsync(); // jwts are stateless so this is not necessary but its here for readability and consistency i gueeeesss
             return Ok();
+        }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh(string refreshToken)
+        {
+            //client sends refresh token
+            //we use user id to retrieve refresh token from db
+            var user = await _userManager.GetUserAsync(User);
+            var storedToken = _tokenService.GetRefreshToken(user.Id);
+            //we check to see it matches and it's not expired and its not revoked
+            if (storedToken == null || storedToken.ExpiryDate < DateTime.Now || storedToken.Token != refreshToken || storedToken.Revoked)
+            {
+                return Unauthorized();
+            }
+            //if it's okay we send a new updated token and we update the one from the db as well
+            string newToken = _tokenService.GenerateRefreshToken();
+            storedToken.Token = newToken;
+            _tokenService.UpdateRefreshToken(user.Id, newToken);
+            return Ok(new { RefreshToken = refreshToken});
         }
 
     }

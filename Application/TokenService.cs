@@ -62,5 +62,20 @@ namespace MyDMS.Application
             };
             _tokenRepository.AddToken(refreshToken);
         }
+
+        public RefreshToken GetRefreshToken(string userId)
+        {
+            return _tokenRepository.GetToken(userId);
+        }
+
+        public void UpdateRefreshToken(string userId, string refreshToken)
+        {
+            _tokenRepository.UpdateToken(userId, refreshToken);
+        }
+
+        public void DeleteRefreshToken(string userId)
+        {
+            _tokenRepository.RemoveToken(userId);
+        }
     }
 }
