@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using MyDMS.Domain;
+using MyDMS.Infrastructure;
 using System.IdentityModel.Tokens.Jwt;
+using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Text;
 
@@ -10,10 +13,12 @@ namespace MyDMS.Application
     public class TokenService
     {
         private readonly IConfiguration _config;
+        private readonly TokenRepository _tokenRepository;
 
-        public TokenService(IConfiguration config)
+        public TokenService(IConfiguration config, TokenRepository tokenRepository)
         {
             _config = config;
+            _tokenRepository = tokenRepository;
         }
 
         public string GenerateToken(string username, string userId, string role)
@@ -40,6 +45,22 @@ namespace MyDMS.Application
             Console.WriteLine(tokenSettings["Key"]);
             Console.WriteLine(role);
             return new JwtSecurityTokenHandler().WriteToken(jwtToken);
+        }
+
+        public string GenerateRefreshToken()
+        {
+            return Guid.NewGuid().ToString();
+        }
+
+        public void StoreRefreshToken(string userId, string token)
+        {
+            RefreshToken refreshToken = new RefreshToken
+            {
+                UserId = userId,
+                Token = token,
+                ExpiryDate = DateTime.Now.AddMinutes(30)
+            };
+            _tokenRepository.AddToken(refreshToken);
         }
     }
 }

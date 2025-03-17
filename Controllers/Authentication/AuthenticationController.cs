@@ -71,7 +71,9 @@ namespace MyDMS.Controllers.Authentication
             }   
 
             var token = _tokenService.GenerateToken(request.Username, user.Id, (await _userManager.GetRolesAsync(user))[0]);
-            return Ok(new { Token = token });
+            var refreshToken = _tokenService.GenerateRefreshToken();
+            _tokenService.StoreRefreshToken(user.Id, refreshToken);
+            return Ok(new { Token = token, RefreshToken = refreshToken});
         }
 
         [HttpPost("logout")]
