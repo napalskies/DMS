@@ -1,2 +1,4 @@
 appsettings.json
 wwwroot
+.vs
+bin
