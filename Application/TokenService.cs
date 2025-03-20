@@ -39,11 +39,6 @@ namespace MyDMS.Application
                 claims: claims,
                 signingCredentials: credentials,
                 expires: DateTime.Now.AddMinutes(60));
-            Console.WriteLine(tokenSettings["ExpirationTime"]);
-            Console.WriteLine(tokenSettings["Issuer"]);
-            Console.WriteLine(tokenSettings["Audience"]);
-            Console.WriteLine(tokenSettings["Key"]);
-            Console.WriteLine(role);
             return new JwtSecurityTokenHandler().WriteToken(jwtToken);
         }
 

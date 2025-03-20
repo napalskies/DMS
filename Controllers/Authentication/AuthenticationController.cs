@@ -88,20 +88,22 @@ namespace MyDMS.Controllers.Authentication
         [HttpPost("refresh")]
         public async Task<IActionResult> Refresh(string refreshToken)
         {
-            //client sends refresh token
-            //we use user id to retrieve refresh token from db
-            //var u = _userManager.GetUserIdAsync(HttpContext.User);
             var user = await _userManager.GetUserAsync(User);
             var storedToken = _tokenService.GetRefreshToken(user.Id);
+
             //we check to see it matches and it's not expired and its not revoked
             if (storedToken == null || storedToken.ExpiryDate < DateTime.Now || storedToken.Token != refreshToken || storedToken.Revoked)
             {
                 return Unauthorized();
             }
-            //if it's okay we send a new updated token and we update the one from the db as well
+
+            //if it's okay we send a new updated access token and we update the one from the db as well
+            var accessToken = _tokenService.GenerateToken(user.UserName, user.Id, (await _userManager.GetRolesAsync(user))[0]);
+            
             string newToken = _tokenService.GenerateRefreshToken();
             _tokenService.UpdateRefreshToken(user.Id, newToken);
-            return Ok(new { RefreshToken = newToken});
+            
+            return Ok(new {AccessToken = accessToken, RefreshToken = newToken});
         }
 
     }
