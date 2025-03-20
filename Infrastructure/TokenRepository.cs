@@ -3,7 +3,7 @@ using MyDMS.Infrastructure.Data;
 
 namespace MyDMS.Infrastructure
 {
-    public class TokenRepository
+    public class TokenRepository : ITokenRepository
     {
         private readonly ApplicationDbContext _context;
         public TokenRepository(ApplicationDbContext context)

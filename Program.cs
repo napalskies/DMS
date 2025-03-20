@@ -46,13 +46,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //Configure services added in the app
-builder.Services.AddSingleton<TokenService>();
+builder.Services.AddScoped<TokenService>();
 //builder.Services.AddSingleton<EncryptionService>();
 var configuration = builder.Configuration;
 DMSConfig.Initialize(configuration);
 
 builder.Services.AddScoped<IFileRepository, FileRepository>();
 builder.Services.AddScoped<IFileStorageService, OciFileStorageService>();
+builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 
 var tokenSettings = builder.Configuration.GetSection("JwtSettings");
 

@@ -13,9 +13,9 @@ namespace MyDMS.Application
     public class TokenService
     {
         private readonly IConfiguration _config;
-        private readonly TokenRepository _tokenRepository;
+        private readonly ITokenRepository _tokenRepository;
 
-        public TokenService(IConfiguration config, TokenRepository tokenRepository)
+        public TokenService(IConfiguration config, ITokenRepository tokenRepository)
         {
             _config = config;
             _tokenRepository = tokenRepository;
