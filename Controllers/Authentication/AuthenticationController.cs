@@ -90,6 +90,7 @@ namespace MyDMS.Controllers.Authentication
         {
             //client sends refresh token
             //we use user id to retrieve refresh token from db
+            //var u = _userManager.GetUserIdAsync(HttpContext.User);
             var user = await _userManager.GetUserAsync(User);
             var storedToken = _tokenService.GetRefreshToken(user.Id);
             //we check to see it matches and it's not expired and its not revoked
@@ -99,9 +100,8 @@ namespace MyDMS.Controllers.Authentication
             }
             //if it's okay we send a new updated token and we update the one from the db as well
             string newToken = _tokenService.GenerateRefreshToken();
-            storedToken.Token = newToken;
             _tokenService.UpdateRefreshToken(user.Id, newToken);
-            return Ok(new { RefreshToken = refreshToken});
+            return Ok(new { RefreshToken = newToken});
         }
 
     }

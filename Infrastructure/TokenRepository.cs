@@ -31,7 +31,7 @@ namespace MyDMS.Infrastructure
         {
             var token = GetToken(userID);
             token.Token = refreshToken;
-            token.ExpiryDate = token.ExpiryDate.AddMinutes(30);
+            token.ExpiryDate = DateTime.Now.AddMinutes(30);
             _context.SaveChanges();
         }
     }

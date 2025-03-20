@@ -54,13 +54,20 @@ namespace MyDMS.Application
 
         public void StoreRefreshToken(string userId, string token)
         {
-            RefreshToken refreshToken = new RefreshToken
+            if (GetRefreshToken(userId) == null)
             {
-                UserId = userId,
-                Token = token,
-                ExpiryDate = DateTime.Now.AddMinutes(30)
-            };
-            _tokenRepository.AddToken(refreshToken);
+                RefreshToken refreshToken = new RefreshToken
+                {
+                    UserId = userId,
+                    Token = token,
+                    ExpiryDate = DateTime.Now.AddMinutes(30)
+                };
+                _tokenRepository.AddToken(refreshToken);
+            }
+            else
+            {
+                UpdateRefreshToken(userId, token);
+            }
         }
 
         public RefreshToken GetRefreshToken(string userId)
