@@ -20,6 +20,7 @@
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.7.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySQL" Version="8.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="System.Threading.Channels" Version="9.0.3" />
   </ItemGroup>
 
 </Project>
