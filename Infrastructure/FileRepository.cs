@@ -33,5 +33,11 @@ namespace MyDMS.Infrastructure
         {
             throw new NotImplementedException();
         }
+
+        public async Task<List<Domain.Document>> DownloadAllFilesAsync(string userId)
+        {
+            var documents = _context.Documents.Where(d => d.UserId == userId).ToList();
+            return documents;
+        }
     }
 }
