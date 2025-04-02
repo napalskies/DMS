@@ -12,6 +12,11 @@ namespace MyDMS.Application.FileStorage
 {
     public class OciFileStorageService : IFileStorageService
     {
+        public Task<IEnumerable<string>> DownloadAllFilesAsync(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<DocumentDto> DownloadFileAsync(string fileName)
         {
             var configFilePath = Path.GetFullPath(@"C:\Users\AU102240\.oci\config.file");
@@ -59,7 +64,7 @@ namespace MyDMS.Application.FileStorage
                 DocumentId = Guid.NewGuid(),
                 DocumentType = 1,
                 CreateDateTime = DateTime.Now,
-                FileData = EncryptionService.EncryptFile(file),
+                FileData = await EncryptionService.EncryptFile(file),
                 ContentType = file.ContentType,
                 UserId = userId
             };

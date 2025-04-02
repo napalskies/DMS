@@ -6,5 +6,7 @@ namespace MyDMS.Application.FileStorage
     {
         Task<string> UploadFileAsync(IFormFile file, string userId);
         Task<DocumentDto> DownloadFileAsync(string fileName);
+
+        Task<IEnumerable<string>> DownloadAllFilesAsync(string userId);
     }
 }

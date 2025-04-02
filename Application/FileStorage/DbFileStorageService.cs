@@ -35,7 +35,7 @@ namespace MyDMS.Application.FileStorage
                 await file.CopyToAsync(fileStream);
             }*/
 
-            var fileData = EncryptionService.EncryptFile(file);
+            var fileData = await EncryptionService.EncryptFile(file);
 
 
             Domain.Document document = new Domain.Document
@@ -65,6 +65,13 @@ namespace MyDMS.Application.FileStorage
                 FileStream = fileStream,
                 ContentType = file.ContentType
             };
+        }
+
+        public async Task<IEnumerable<string>> DownloadAllFilesAsync(string userId)
+        {
+            var files = await _fileRepository.DownloadAllFilesAsync(userId);
+            var docIdList = files.Select(f => f.DocumentId.ToString());
+            return docIdList;
         }
 
         

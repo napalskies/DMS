@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
+using MyDMS.Application;
 using MyDMS.Application.FileStorage;
 using MyDMS.Domain;
 using System.Runtime.CompilerServices;
@@ -24,22 +25,28 @@ namespace MyDMS.Controllers.Documents
 
         [HttpPost("upload")]
         [Authorize]
+        [Consumes("multipart/form-data")]
         public async Task<IActionResult> Upload(IFormFile file)
         {
             var u = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            Console.Write("user: " + u);
-            var filepath = await _fileStorageService.UploadFileAsync(file, u);
-            return Ok($"File uploaded at {filepath}");
+            var guid = await _fileStorageService.UploadFileAsync(file, u);
+            return Ok($"File uploaded as {guid}");
         }
 
         [HttpGet("download")]
         public async Task<IActionResult> Download(string guid)
         {
             var file = await _fileStorageService.DownloadFileAsync(guid);
-            //var fileStream = new MemoryStream(file.FileData);
-            // Download file from server
-            //return File(fileStream, file.ContentType);// Bytes, file.ContentType);
             return File(file.FileStream, file.ContentType);
+        }
+
+        [HttpGet("download-all")]
+        public async Task<IActionResult> DownloadAll(string? userId)
+        {
+            if (userId == null)
+                userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var files = await _fileStorageService.DownloadAllFilesAsync(userId);
+            return Ok(files);
         }
     }
 }

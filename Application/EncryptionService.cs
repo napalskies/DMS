@@ -51,10 +51,10 @@ namespace MyDMS.Application
             }
         }
 
-        public static byte[] EncryptFile(IFormFile file)
+        public async static Task<byte[]> EncryptFile(IFormFile file)
         {
             using var ms = new MemoryStream();
-            file.CopyToAsync(ms);
+            await file.CopyToAsync(ms);
             var fileBytes = ms.ToArray();
 
             using var aes = Aes.Create();
