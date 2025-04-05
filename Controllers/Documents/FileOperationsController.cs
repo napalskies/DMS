@@ -15,21 +15,18 @@ namespace MyDMS.Controllers.Documents
     public class FileOperationsController : ControllerBase
     {
         private readonly IFileStorageService _fileStorageService;
-        private readonly UserManager<ApplicationUser> _userManager;
 
-        public FileOperationsController(IFileStorageService fileStorageService, UserManager<ApplicationUser> userManager)
+        public FileOperationsController(IFileStorageService fileStorageService)
         {
             _fileStorageService = fileStorageService;
-            _userManager = userManager;
         }
 
         [HttpPost("upload")]
         [Authorize]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> Upload(IFormFile file)
+        public async Task<IActionResult> Upload(IFormFile file, [FromForm]string folderId)
         {
-            var u = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var guid = await _fileStorageService.UploadFileAsync(file, u);
+            var guid = await _fileStorageService.UploadFileAsync(file, folderId);
             return Ok($"File uploaded as {guid}");
         }
 
@@ -41,11 +38,9 @@ namespace MyDMS.Controllers.Documents
         }
 
         [HttpGet("download-all")]
-        public async Task<IActionResult> DownloadAll(string? userId)
+        public async Task<IActionResult> DownloadAll(string? folderId)
         {
-            if (userId == null)
-                userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var files = await _fileStorageService.DownloadAllFilesAsync(userId);
+            var files = await _fileStorageService.DownloadAllFilesAsync(folderId);
             return Ok(files);
         }
     }

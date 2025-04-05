@@ -22,7 +22,7 @@ namespace MyDMS.Application.FileStorage
             }
         }
 
-        public async Task<string> UploadFileAsync(IFormFile file, string userId)
+        public async Task<string> UploadFileAsync(IFormFile file, string folderId)
         {
             Guid guid = Guid.NewGuid();
             
@@ -37,7 +37,7 @@ namespace MyDMS.Application.FileStorage
 
             var fileData = await EncryptionService.EncryptFile(file);
 
-
+           
             Domain.Document document = new Domain.Document
             {
                 DocumentId = guid,
@@ -45,9 +45,9 @@ namespace MyDMS.Application.FileStorage
                 CreateDateTime = DateTime.Now,
                 FileData = fileData,
                 ContentType = file.ContentType,
-                UserId = userId
-            }; 
-
+                FolderId = folderId
+            };
+            
             await _fileRepository.UploadFileAsync(document);
 
             return guid.ToString();
@@ -67,9 +67,9 @@ namespace MyDMS.Application.FileStorage
             };
         }
 
-        public async Task<IEnumerable<string>> DownloadAllFilesAsync(string userId)
+        public async Task<IEnumerable<string>> DownloadAllFilesAsync(string folderId)
         {
-            var files = await _fileRepository.DownloadAllFilesAsync(userId);
+            var files = await _fileRepository.DownloadAllFilesAsync(folderId);
             var docIdList = files.Select(f => f.DocumentId.ToString());
             return docIdList;
         }

@@ -65,8 +65,7 @@ namespace MyDMS.Application.FileStorage
                 DocumentType = 1,
                 CreateDateTime = DateTime.Now,
                 FileData = await EncryptionService.EncryptFile(file),
-                ContentType = file.ContentType,
-                UserId = userId
+                ContentType = file.ContentType
             };
 
             var jsonDocument = JsonSerializer.Serialize(document);

@@ -7,7 +7,7 @@
         public DateTime CreateDateTime { get; set; }
         public byte[] FileData { get; set; }
         public string ContentType { get; set; }
-        public string UserId { get; set; }
-        public ApplicationUser User { get; set; }
+        public string FolderId { get; set; }
+        public Folder Folder { get; set; }
     }
 }
