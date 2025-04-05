@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyDMS.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using MyDMS.Infrastructure.Data;
 namespace MyDMS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250402131149_ChangeFromIdToDocumentId")]
+    partial class ChangeFromIdToDocumentId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -242,9 +245,15 @@ namespace MyDMS.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
                     b.HasKey("DocumentId");
 
                     b.HasIndex("FolderId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Documents");
                 });
@@ -360,7 +369,15 @@ namespace MyDMS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("MyDMS.Domain.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Folder");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MyDMS.Domain.Folder", b =>

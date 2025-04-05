@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyDMS.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using MyDMS.Infrastructure.Data;
 namespace MyDMS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250402100612_AddFolderTable")]
+    partial class AddFolderTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -238,40 +241,23 @@ namespace MyDMS.Migrations
                         .IsRequired()
                         .HasColumnType("longblob");
 
+                    b.Property<string>("Folder")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("FolderId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("DocumentId");
 
-                    b.HasIndex("FolderId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Documents");
-                });
-
-            modelBuilder.Entity("MyDMS.Domain.Folder", b =>
-                {
-                    b.Property<string>("FolderId")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("FolderName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("FolderOwnerId")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<int>("FolderType")
-                        .HasColumnType("int");
-
-                    b.HasKey("FolderId");
-
-                    b.HasIndex("FolderOwnerId");
-
-                    b.ToTable("Folders");
                 });
 
             modelBuilder.Entity("MyDMS.Domain.RefreshToken", b =>
@@ -354,22 +340,13 @@ namespace MyDMS.Migrations
 
             modelBuilder.Entity("MyDMS.Domain.Document", b =>
                 {
-                    b.HasOne("MyDMS.Domain.Folder", "Folder")
+                    b.HasOne("MyDMS.Domain.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("FolderId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Folder");
-                });
-
-            modelBuilder.Entity("MyDMS.Domain.Folder", b =>
-                {
-                    b.HasOne("MyDMS.Domain.Folder", "FolderOwner")
-                        .WithMany()
-                        .HasForeignKey("FolderOwnerId");
-
-                    b.Navigation("FolderOwner");
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

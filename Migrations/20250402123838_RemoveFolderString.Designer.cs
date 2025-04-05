@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyDMS.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using MyDMS.Infrastructure.Data;
 namespace MyDMS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250402123838_RemoveFolderString")]
+    partial class RemoveFolderString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -238,13 +241,13 @@ namespace MyDMS.Migrations
                         .IsRequired()
                         .HasColumnType("longblob");
 
-                    b.Property<string>("FolderId")
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("DocumentId");
 
-                    b.HasIndex("FolderId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Documents");
                 });
@@ -354,13 +357,13 @@ namespace MyDMS.Migrations
 
             modelBuilder.Entity("MyDMS.Domain.Document", b =>
                 {
-                    b.HasOne("MyDMS.Domain.Folder", "Folder")
+                    b.HasOne("MyDMS.Domain.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("FolderId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Folder");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MyDMS.Domain.Folder", b =>
