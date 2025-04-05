@@ -41,6 +41,17 @@ builder.Services.ConfigureApplicationCookie(options =>
     };
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000") 
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials(); 
+    });
+});
+
 builder.Services.AddControllers(); // forces the app to search the codebase for any controllers we might have
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -52,8 +63,10 @@ var configuration = builder.Configuration;
 DMSConfig.Initialize(configuration);
 
 builder.Services.AddScoped<IFileRepository, FileRepository>();
-builder.Services.AddScoped<IFileStorageService, OciFileStorageService>();
+builder.Services.AddScoped<IFileStorageService, DbFileStorageService>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+builder.Services.AddScoped<FolderRepository>();
+builder.Services.AddScoped<FolderService>();
 
 var tokenSettings = builder.Configuration.GetSection("JwtSettings");
 
@@ -82,6 +95,8 @@ builder.Services.AddAuthorization(options =>
 
 var app = builder.Build();
 
+app.UseCors("AllowReactApp");
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -98,20 +113,20 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Use(async (context, next) =>
-{
-    var user = context.User;
-    Console.WriteLine($"User authenticated: {user.Identity?.IsAuthenticated}");
-    Console.WriteLine($"User roles: {string.Join(", ", user.Claims.Where(c => c.Type.Contains("role")).Select(c => c.Value))}");
-    await next();
-});
+//app.Use(async (context, next) =>
+//{
+//    var user = context.User;
+//    Console.WriteLine($"User authenticated: {user.Identity?.IsAuthenticated}");
+//    Console.WriteLine($"User roles: {string.Join(", ", user.Claims.Where(c => c.Type.Contains("role")).Select(c => c.Value))}");
+//    await next();
+//});
 
-app.Use(async (context, next) =>
-{
-    Console.WriteLine($"Request: {context.Request.Method} {context.Request.Path}");
-    await next();
-    Console.WriteLine($"Response: {context.Response.StatusCode}");
-});
+//app.Use(async (context, next) =>
+//{
+//    Console.WriteLine($"Request: {context.Request.Method} {context.Request.Path}");
+//    await next();
+//    Console.WriteLine($"Response: {context.Response.StatusCode}");
+//});
 
 //app.MapGet("/enc", (EncryptionService encryptionService) =>
 //{

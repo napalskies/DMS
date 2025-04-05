@@ -8,6 +8,7 @@ namespace MyDMS.Infrastructure.Data
     {
         public DbSet<Document> Documents { get; set; }
         public DbSet<RefreshToken> Tokens { get; set; }
+        public DbSet<MyDMS.Domain.Folder> Folders { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
